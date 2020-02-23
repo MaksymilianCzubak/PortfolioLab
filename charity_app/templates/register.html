@@ -22,25 +22,29 @@
 
     <section class="login-page">
       <h2>Załóż konto</h2>
-      <form>
+      <form action="{% url 'register' %}" method="post">
+          {% csrf_token %}
         <div class="form-group">
-          <input type="text" name="name" placeholder="Imię" />
+          <input type="text" name="first_name" placeholder="Imię" value=""/>
+        </div>
+        <div class="form-group">
+          <input type="text" name="username" placeholder="Username" value=""/>
         </div>
          <div class="form-group">
-          <input type="text" name="surname" placeholder="Nazwisko" />
+          <input type="text" name="last_name" placeholder="Nazwisko" value=""/>
         </div>
         <div class="form-group">
-          <input type="email" name="email" placeholder="Email" />
+          <input type="email" name="email" placeholder="Email" value=""/>
         </div>
         <div class="form-group">
-          <input type="password" name="password" placeholder="Hasło" />
+          <input type="password" name="password" placeholder="Hasło" value=""/>
         </div>
         <div class="form-group">
-          <input type="password" name="password2" placeholder="Powtórz hasło" />
+          <input type="password" name="password2" placeholder="Powtórz hasło" value=""/>
         </div>
 
         <div class="form-group form-group--buttons">
-          <a href="login.html" class="btn btn--without-border">Zaloguj się</a>
+          <a href="{% url 'login' %}" class="btn btn--without-border">Zaloguj się</a>
           <button class="btn" type="submit">Załóż konto</button>
         </div>
       </form>

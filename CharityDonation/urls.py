@@ -18,8 +18,8 @@ from django.urls import path
 from charity_app.views import (
     LandingPage,
     AddDonation,
-    Login,
-    Register,
+    LoginView,
+    RegisterView,
 )
 
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -28,8 +28,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', LandingPage.as_view(), name="landing_page"),
     path('add_donation', AddDonation.as_view(), name="add_donation"),
-    path('login', Login.as_view(), name="login"),
-    path('register', Register.as_view(), name="register"),
+    path('login', LoginView.as_view(), name="login"),
+    path('register', RegisterView.as_view(), name="register"),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
