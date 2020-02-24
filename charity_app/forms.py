@@ -20,6 +20,3 @@ class RegisterForm(forms.ModelForm):
 class LoginForm(forms.Form):
     email = forms.CharField(max_length=255, validators=[validate_email])
     password = forms.CharField(widget=forms.PasswordInput, max_length=255)
-    url = forms.CharField(
-        validators=[URLValidator(schemes=["http", "https"], message="Podaj poprawne dane")]
-    )

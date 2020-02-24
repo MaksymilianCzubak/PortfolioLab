@@ -4,7 +4,9 @@ from .models import Donation, Institution, User, Category
 from .forms import RegisterForm, LoginForm
 from django.contrib import messages
 from django.views.generic import FormView
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, get_user_model, logout
+from django.contrib.auth.backends import ModelBackend
+from django.conf import settings
 
 # Create your views here.
 
@@ -67,12 +69,7 @@ class AddDonation(View):
     def get(self, request):
         ctx = {}
         return render(request, "form.html", ctx)
-'''
-class Login(View):
-    def get(self, request):
-        ctx = {}
-        return render(request, "login.html", ctx)
-'''
+
 class RegisterView(View):
     def get(self, request):
         form = RegisterForm()
@@ -107,16 +104,21 @@ class RegisterView(View):
 
 class LoginView(FormView):
     form_class = LoginForm
-    success_url = "index.html"
+    success_url = "/"
     template_name = "login.html"
 
     def form_valid(self, form: LoginForm):
-        email = form.cleaned_data["email"]
+        #email = form.cleaned_data["email"]
+        username = form.cleaned_data["email"]
         password = form.cleaned_data["password"]
-        user = authenticate(self.request, email=email, password=password)
+        #user = authenticate(self.request, email=email, password=password)
+        user = authenticate(self.request, username=username, password=password)
+        print(user.username)
         if user is None:
             form.add_error(None, "Zły email lub hasło")
             return redirect("/register")
 
         login(self.request, user)
         return super().form_valid(form)
+
+
