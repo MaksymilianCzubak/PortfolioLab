@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.base_user import AbstractBaseUser
 
 # Create your models here.
 TYPE = (
@@ -11,11 +12,13 @@ TYPE = (
 class Category(models.Model):
     name = models.CharField(max_length=256)
 
+
 class Institution(models.Model):
     name = models.CharField(max_length=256)
     description = models.TextField()
     type = models.IntegerField(choices=TYPE, default=1)
     category = models.ManyToManyField(Category)
+
 
 class Donation(models.Model):
     quantity = models.IntegerField()

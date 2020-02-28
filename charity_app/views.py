@@ -4,9 +4,9 @@ from .models import Donation, Institution, User, Category
 from .forms import RegisterForm, LoginForm
 from django.contrib import messages
 from django.views.generic import FormView
-from django.contrib.auth import authenticate, login, get_user_model, logout
-from django.contrib.auth.backends import ModelBackend
-from django.conf import settings
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
 
 # Create your views here.
 
@@ -65,10 +65,22 @@ class LandingPage(View):
                }
         return render(request, "index.html", ctx)
 
-class AddDonation(View):
+
+class AddDonation(LoginRequiredMixin, View):
+    login_url = 'login'
+    redirect_field_name = 'add_donation'
+
     def get(self, request):
-        ctx = {}
+        categories = Category.objects.all()
+        ctx = {'categories': categories}
+        if not request.user.is_authenticated:
+            return redirect('login')
         return render(request, "form.html", ctx)
+
+
+class AdminPanel(LoginRequiredMixin, PermissionRequiredMixin,View):
+    login_url = 'admin'
+    redirect_field_name = 'admin'
 
 class RegisterView(View):
     def get(self, request):
@@ -102,23 +114,45 @@ class RegisterView(View):
                 form.add_error("password2", "Hasła nie są zgodne")
         return render(request, "register.html", ctx)
 
+
 class LoginView(FormView):
     form_class = LoginForm
     success_url = "/"
     template_name = "login.html"
 
     def form_valid(self, form: LoginForm):
-        #email = form.cleaned_data["email"]
         username = form.cleaned_data["email"]
         password = form.cleaned_data["password"]
-        #user = authenticate(self.request, email=email, password=password)
         user = authenticate(self.request, username=username, password=password)
         print(user.username)
+        print(user.is_authenticated)
         if user is None:
             form.add_error(None, "Zły email lub hasło")
-            return redirect("/register")
-
+            return super().form_invalid(form)
         login(self.request, user)
         return super().form_valid(form)
 
 
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect("/")
+
+class UserView(LoginRequiredMixin, View):
+    login_url = "login"
+    def get(self, request):
+        if not request.user.is_authenticated:
+            return redirect('login')
+        return render(request, "user_data.html")
+
+
+
+'''    login_url = 'login'
+    redirect_field_name = 'add_donation'
+
+    def get(self, request):
+        categories = Category.objects.all()
+        ctx = {'categories': categories}
+        if not request.user.is_authenticated:
+            return redirect('login')
+        return render(request, "form.html", ctx)'''

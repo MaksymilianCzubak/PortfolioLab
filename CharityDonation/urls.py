@@ -20,16 +20,21 @@ from charity_app.views import (
     AddDonation,
     LoginView,
     RegisterView,
+    LogoutView,
+    UserView,
 )
 
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name="admin"),
     path('', LandingPage.as_view(), name="landing_page"),
     path('add_donation', AddDonation.as_view(), name="add_donation"),
     path('login', LoginView.as_view(), name="login"),
     path('register', RegisterView.as_view(), name="register"),
+    #path('logged', LoggedUser.as_view(), name="logged"),
+    path('logout', LogoutView.as_view(), name='logout'),
+    path('user_view', UserView.as_view(), name='user_view' )
 ]
 
 urlpatterns += staticfiles_urlpatterns()

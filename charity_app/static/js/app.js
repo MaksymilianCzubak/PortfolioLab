@@ -252,4 +252,8 @@ document.addEventListener("DOMContentLoaded", function() {
   if (form !== null) {
     new FormSteps(form);
   }
+$(function(){
+            var first_title = $('.title');
+            first_title.html('New Text');
+        });
 });
