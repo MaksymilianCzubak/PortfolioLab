@@ -17,6 +17,7 @@ class RegisterForm(forms.ModelForm):
         widgets = {"password": forms.PasswordInput}
         validators = {"email": [validate_email]}
 
+
 class LoginForm(forms.Form):
     email = forms.CharField(max_length=255, validators=[validate_email])
     password = forms.CharField(widget=forms.PasswordInput, max_length=255)

@@ -32,7 +32,6 @@ urlpatterns = [
     path('add_donation', AddDonation.as_view(), name="add_donation"),
     path('login', LoginView.as_view(), name="login"),
     path('register', RegisterView.as_view(), name="register"),
-    #path('logged', LoggedUser.as_view(), name="logged"),
     path('logout', LogoutView.as_view(), name='logout'),
     path('user_view', UserView.as_view(), name='user_view' )
 ]

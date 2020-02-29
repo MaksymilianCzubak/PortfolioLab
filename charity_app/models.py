@@ -9,6 +9,7 @@ TYPE = (
     (3, 'zbiórka lokalna'),
 )
 
+
 class Category(models.Model):
     name = models.CharField(max_length=256)
 
@@ -23,7 +24,7 @@ class Institution(models.Model):
 class Donation(models.Model):
     quantity = models.IntegerField()
     categories = models.ManyToManyField(Category)
-    institution = models.ForeignKey(Institution, on_delete = models.CASCADE)
+    institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
     address = models.CharField(max_length=256)
     phone_number = models.IntegerField()
     city = models.CharField(max_length=256)
@@ -31,4 +32,4 @@ class Donation(models.Model):
     pick_up_date = models.DateField()
     pick_up_time = models.TimeField()
     pick_up_comment = models.TextField()
-    user = models.ForeignKey(User, blank=True, default=None, on_delete = models.CASCADE)
+    user = models.ForeignKey(User, blank=True, default=None, on_delete=models.CASCADE)

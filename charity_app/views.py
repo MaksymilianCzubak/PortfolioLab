@@ -78,9 +78,10 @@ class AddDonation(LoginRequiredMixin, View):
         return render(request, "form.html", ctx)
 
 
-class AdminPanel(LoginRequiredMixin, PermissionRequiredMixin,View):
+class AdminPanel(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = 'admin'
     redirect_field_name = 'admin'
+
 
 class RegisterView(View):
     def get(self, request):
@@ -138,21 +139,10 @@ class LogoutView(View):
         logout(request)
         return redirect("/")
 
+
 class UserView(LoginRequiredMixin, View):
     login_url = "login"
     def get(self, request):
         if not request.user.is_authenticated:
             return redirect('login')
         return render(request, "user_data.html")
-
-
-
-'''    login_url = 'login'
-    redirect_field_name = 'add_donation'
-
-    def get(self, request):
-        categories = Category.objects.all()
-        ctx = {'categories': categories}
-        if not request.user.is_authenticated:
-            return redirect('login')
-        return render(request, "form.html", ctx)'''
